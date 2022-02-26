@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Wordle을 어떻게 플레이하나요?</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div id="root-container" class="fullscreen">
+            <header>
+                <div id="title" class="center-container grow-container">
+                    Wordle을 어떻게 플레이하나요?
+                </div>
+            </header>
+
+            <!-- Explanation -->
+            <div class="inline-margined">
+                Wordle은 주어진 힌트를 기반으로 최대 여섯 번의 시도를 통해 다섯 글자 단어를 추측하는 게임입니다.<br><br>
+    
+                각 시도마다 <b>사전에 등재된</b> 다섯 글자의 단어를 입력합니다. 이후 단어가 정답에 얼마나 가까운지 나타납니다.
+
+                <div class="separator"></div>
+
+                <p>
+                    <b>예시</b>
+                </p>
+
+                <div class="wordle-result">
+                    <div class="char-container center-container correct-position">W</div>
+                    <div class="char-container center-container unvalidated">E</div>
+                    <div class="char-container center-container unvalidated">A</div>
+                    <div class="char-container center-container unvalidated">R</div>
+                    <div class="char-container center-container unvalidated">Y</div>
+                </div> 
+
+                <p>
+                    글자 <b>W</b>는 단어에 사용되었으며 올바른 위치에 있습니다.
+                </p>
+
+                <div class="wordle-result">
+                    <div class="char-container center-container unvalidated">P</div>
+                    <div class="char-container center-container correct-usage">I</div>
+                    <div class="char-container center-container unvalidated">L</div>
+                    <div class="char-container center-container unvalidated">L</div>
+                    <div class="char-container center-container unvalidated">S</div>
+                </div> 
+
+                <p>
+                    글자 <b>I</b>는 단어에 사용되었으나 틀린 위치에 있습니다 (정답의 두번째 글자는 I가 아닙니다). 
+                </p>
+
+                <div class="wordle-result">
+                    <div class="char-container center-container unvalidated">V</div>
+                    <div class="char-container center-container unvalidated">A</div>
+                    <div class="char-container center-container unvalidated">G</div>
+                    <div class="char-container center-container not-used">U</div>
+                    <div class="char-container center-container unvalidated">E</div>
+                </div> 
+
+                <p>
+                    글자 <b>U</b>는 단어에 사용되지 않았습니다.
+                </p>
+
+                <div class="separator"></div>
+
+                정답은 매일 새롭게 바뀝니다. 하루에 한번씩 Wordle에 도전해보세요!
+            </div>
+            
+        </div>
+    </body>
+</html>

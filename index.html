@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Wordle: 하루에 한 번 플레이하는 단어 게임</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div id="root-container" class="fullscreen">
+            <header>
+                <div class="center-container">
+                    <a href="/how-to.html">어떻게 플레이하나요?</a> 
+                </div>
+                <div id="title" class="center-container grow-container">
+                    <a href="">WORDLE</a> 
+                </div>
+                <div class="center-container">
+                    <a href="">이런걸 누가 만들었나요?</a>
+                </div>
+            </header>
+
+            <!-- Attempts -->
+            <div class="grow-container center-container">
+                <div id="board">
+                    <div class="center-container char-container" :class="[word_char.status]" v-for="word_char in previous_attempts.flat()">
+                        {{ word_char.char }}
+                    </div>
+                    <div class="center-container char-container unvalidated" v-for="char in current_attempt">
+                        {{ char }}
+                    </div>
+                    <div class="center-container char-container unset" v-for="_ in (30 - 5 * previous_attempts.length - current_attempt.length)"></div>
+                </div>
+            </div>
+
+            <!-- Keyboard -->
+            <div id="keyboard" class="center-container">
+                <!-- First and second row -->
+                <div class="keyboard-row">
+                    <div class="center-container key-button" v-for="alphabet in key_buttons[0]" :class="[alphabet_usage[alphabet]]" @click="on_key_input(alphabet)">{{ alphabet }}</div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="center-container key-button" v-for="alphabet in key_buttons[1]" :class="[alphabet_usage[alphabet]]" @click="on_key_input(alphabet)">{{ alphabet }}</div>
+                </div>
+                <!-- Third row, including enter and backspace key -->
+                <div class="keyboard-row">
+                    <div class="center-container key-button wide-key-button unknown" @click="on_enter_input">ENTER</div>
+                    <div class="center-container key-button" v-for="alphabet in key_buttons[2]" :class="[alphabet_usage[alphabet]]" @click="on_key_input(alphabet)">{{ alphabet }}</div>
+                    <div class="center-container key-button wide-key-button unknown" @click="on_backspace_input">BACKSPACE</div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script>
+            function is_valid_word(query){
+                return true;
+            };
+
+            function get_match_result(query){
+                var answer = 'RAISE';
+                var result = Array(5); // 'not-used', 'correct-usage' or 'correct-position'
+
+                for (let [index, char] of query.entries()){
+                    var status = 'correct-position';
+                    if (char !== answer.charAt(index)){
+                        status = answer.includes(char) ? 'correct-usage' : 'not-used';
+                    }
+
+                    result[index] = status;
+                }
+
+                return result;
+            }
+
+            var app = new Vue({
+                el: '#root-container',
+                data: {
+                    game_result: 'playing', // playing: 게임 진행 중, win: 승리, lose: 패배
+                    previous_attempts: [],
+                    current_attempt: [],
+                    key_buttons: [['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'], ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'], ['Z', 'X', 'C', 'V', 'B', 'N', 'M']],
+                    alphabet_usage: {},
+                    counter: 100,
+                },
+                created: function(){
+                    for (var i = 0; i < 26; ++i){
+                        var char = String.fromCharCode(65 + i); // from 'A' to 'Z'
+                        this.alphabet_usage[char] = 'unknown';
+                    }
+                },
+                methods: {
+                    on_enter_input: function(){
+                        if (this.game_result !== 'playing'){
+                            return;
+                        }
+
+                        if (this.current_attempt.length < 5){
+                            alert('단어는 다섯 글자여야 합니다.');
+                        }
+                        else if (is_valid_word(this.current_attempt.join('')) === false){
+                            alert('올바른 단어가 아닙니다. 사전에 등재된 단어를 사용해 주십시오.');
+                        }
+                        else{
+                            var match_result = get_match_result(this.current_attempt);
+                            var all_match = match_result.every((status) => status === 'correct-position');
+                            var zipped = this.current_attempt.map(
+                                (item, index) => { 
+                                    return { 
+                                        'char': item, 
+                                        'status': match_result[index] 
+                                    }; 
+                                }
+                            );
+
+                            // Modify alphabet usage
+                            for (var item of zipped){
+                                var char = item['char'];
+                                var status = item['status'];
+
+                                if (this.alphabet_usage[char] === 'unknown' || this.alphabet_usage[char] === 'correct-usage'){
+                                    this.$set(this.alphabet_usage, char, status);
+                                }
+                            }
+
+                            this.previous_attempts.push(zipped);
+                            this.current_attempt = [];
+
+                            if (all_match){ // user win
+                                this.game_result = 'win';
+                                alert('You win!');
+                            }
+                            else if (this.previous_attempts.length === 6){ // user lose
+                                this.game_result = 'lose';
+                                alert('You lose!');
+                            }
+                        }
+                    },
+                    on_backspace_input: function(){
+                        if (this.game_result !== 'playing'){
+                            return;
+                        }
+
+                        if (this.current_attempt.length > 0){
+                            this.current_attempt.pop();
+                        }
+                    },
+                    on_key_input: function(key){
+                        if (this.game_result !== 'playing'){
+                            return;
+                        }
+
+                        if (this.current_attempt.length < 5){
+                            this.current_attempt.push(key);
+                        }
+                    },
+                    before_enter: function(el){
+                        el.style.animationDelay = 0.2 * parseInt(el.dataset.index, 10) + 's';
+                    },
+                }
+            });
+                    
+            document.addEventListener('keypress', function(event){
+                var keyCode = event.which;
+                if (keyCode == 13){ // Enter
+                    app.on_enter_input();
+                }
+                else if (keyCode == 8){ // Backspace
+                    app.on_backspace_input();
+                }
+                else if (keyCode >= 65 && keyCode <= 90){ // Uppercase alphabets
+                    app.on_key_input(String.fromCharCode(keyCode));
+                }
+                else if (keyCode >= 97 && keyCode <= 122){ // Lowercase alphabets
+                    app.on_key_input(String.fromCharCode(keyCode - 32));
+                }
+            });
+        </script>
+    </body>
+</html>

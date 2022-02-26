@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@400;700&display=swap');
+
+html, body{
+    margin: 0;
+    height: 100%;
+    background-color: rgb(18, 18, 19);
+    color: white;
+    font-family: 'Oxygen', 'Helvetica', sans-serif;
+    font-weight: 400;
+}
+
+body > .fullscreen{
+    height: 100%;
+}
+
+#root-container{
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+}
+
+header{
+    display: flex;
+    min-height: 4rem;
+    border-bottom: 1px solid rgb(58, 58, 60);
+    padding-inline: 1rem;
+}
+
+a{
+    text-decoration: none;
+    color: white;
+}
+
+header > #title{
+    font-weight: 700;
+    font-size: 2rem;
+}
+
+.center-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.grow-container{
+    flex-grow: 1;
+}
+
+#board {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    height: fit-content;
+    row-gap: 0.5rem;
+    column-gap: 0.5rem;
+}
+
+.char-container{
+    width: 4rem;
+    height: 4rem;
+    font-weight: 700;
+    font-size: 2rem;
+}
+
+@media screen and (max-height: 41rem) {
+    .char-container{
+        width: 3rem;
+        height: 3rem;
+        font-size: 1.5rem;
+    }
+}
+
+#keyboard{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-bottom: 1rem;
+}
+
+.keyboard-row{
+    display: flex;
+    gap: 0.5rem;
+}
+
+.key-button{
+    border-radius: 4px;
+    font-size: smaller;
+    font-weight: 700;
+    width: 3rem;
+    padding-block: 0.5rem;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 38rem) {
+    .key-button{
+        width: 2rem;
+    }
+}
+
+.wide-key-button{
+    width: 6rem;
+}
+
+.unset{
+    box-shadow: 0 0 0 2px rgb(58, 58, 60) inset;
+}
+
+.unvalidated{
+    box-shadow: 0 0 0 2px rgb(86, 87, 88) inset;
+}
+
+.not-used{
+    background-color: rgb(58, 58, 60);
+}
+
+.correct-usage{
+    background-color: rgb(177, 160, 76);
+}
+
+.correct-position{
+    background-color: rgb(97, 140, 85);
+}
+
+.unknown{
+    background-color: rgb(129, 131, 132);
+}
+
+.inline-margined{
+    margin-inline: 1rem;
+}
+
+.separator{
+    height: 1px;
+    background-color: rgb(38, 38, 40);
+    margin-block: 1rem;
+}
+
+.wordle-result{
+    display: flex;
+    gap: 4px;
+}
+
+.wordle-result > .char-container{
+    width: 3rem;
+    height: 3rem;
+    font-size: 1.5rem;
+}
