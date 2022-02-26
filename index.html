@@ -9,13 +9,13 @@
         <div id="root-container" class="fullscreen">
             <header>
                 <div class="center-container">
-                    <a href="https://stripe2933.github.io/wordle/how-to.html">어떻게 플레이하나요?</a> 
+                    <a href="how-to.html" title="Wordle을 플레이하는 방법에 대해 알아보세요.">어떻게 플레이하나요?</a>
                 </div>
                 <div id="title" class="center-container grow-container">
-                    <a href="">WORDLE</a> 
+                    <a href=".">WORDLE</a> 
                 </div>
                 <div class="center-container">
-                    <a href="https://www.nytimes.com/international/">이런걸 누가 만들었나요?</a>
+                    <a href="https://www.nytimes.com/games/wordle/index.html" title="이 게임은 The New York Times의 Wordle 게임을 모방해 만들어졌습니다. 원래의 게임을 확인해 보세요.">이런걸 누가 만들었나요?</a>
                 </div>
             </header>
 
@@ -128,11 +128,11 @@
 
                             if (all_match){ // user win
                                 this.game_result = 'win';
-                                alert('You win!');
+                                alert('축하합니다. ' + this.previous_attempts.length + '번의 시도로 정답을 맞추는데 성공하였습니다.');
                             }
                             else if (this.previous_attempts.length === 6){ // user lose
                                 this.game_result = 'lose';
-                                alert('You lose!');
+                                alert('주어진 기회 내 정답을 맞추지 않아 실패입니다.');
                             }
                         }
                     },
