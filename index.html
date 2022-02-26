@@ -50,10 +50,11 @@
             </div>
         </div>
 
+        <script src="valid_words.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
         <script>
             function is_valid_word(query){
-                return true;
+                return valid_words_set.has(query);
             };
 
             function get_match_result(query){
@@ -97,7 +98,7 @@
                         if (this.current_attempt.length < 5){
                             alert('단어는 다섯 글자여야 합니다.');
                         }
-                        else if (is_valid_word(this.current_attempt.join('')) === false){
+                        else if (is_valid_word(this.current_attempt.join('').toLowerCase()) === false){
                             alert('올바른 단어가 아닙니다. 사전에 등재된 단어를 사용해 주십시오.');
                         }
                         else{
