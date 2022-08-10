@@ -84,7 +84,7 @@ header > #title{
     gap: 0.5rem;
 }
 
-.key-button{
+.kb{ /* key-button */
     border-radius: 4px;
     font-size: smaller;
     font-weight: 700;
@@ -94,12 +94,12 @@ header > #title{
 }
 
 @media screen and (max-width: 38rem) {
-    .key-button{
+    .kb{ /* key-button */
         width: 2rem;
     }
 }
 
-.wide-key-button{
+.wkb{ /* wide-key-button */
     width: 6rem;
 }
 
