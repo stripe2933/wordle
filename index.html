@@ -8,44 +8,44 @@
     <body>
         <div id="root-container" class="fullscreen">
             <header>
-                <div class="center-container">
+                <div class="centerc">
                     <a href="how-to.html" title="Wordle을 플레이하는 방법에 대해 알아보세요.">어떻게 플레이하나요?</a>
                 </div>
-                <div id="title" class="center-container grow-container">
+                <div id="title" class="centerc growc">
                     <a href=".">WORDLE</a> 
                 </div>
-                <div class="center-container">
+                <div class="centerc">
                     <a target="_blank" rel="noopener noreferrer" href="https://www.nytimes.com/games/wordle/index.html" title="이 게임은 The New York Times의 Wordle 게임을 모방해 만들어졌습니다. 원래의 게임을 확인해 보세요.">이런걸 누가 만들었나요?</a>
                 </div>
             </header>
 
             <!-- Attempts -->
-            <div class="grow-container center-container">
+            <div class="growc centerc">
                 <div id="board">
-                    <div class="center-container char-container" :class="[word_char.status]" v-for="word_char in previous_attempts.flat()">
+                    <div class="centerc charc" :class="[word_char.status]" v-for="word_char in previous_attempts.flat()">
                         {{ word_char.char }}
                     </div>
-                    <div class="center-container char-container unvalidated" v-for="char in current_attempt">
+                    <div class="centerc charc unvalidated" v-for="char in current_attempt">
                         {{ char }}
                     </div>
-                    <div class="center-container char-container unset" v-for="_ in (30 - 5 * previous_attempts.length - current_attempt.length)"></div>
+                    <div class="centerc charc unset" v-for="_ in (30 - 5 * previous_attempts.length - current_attempt.length)"></div>
                 </div>
             </div>
 
             <!-- Keyboard -->
-            <div id="keyboard" class="center-container">
+            <div id="keyboard" class="centerc">
                 <!-- First and second row -->
                 <div class="keyboard-row">
-                    <div class="center-container key-button" v-for="alphabet in key_buttons[0]" :class="[alphabet_usage[alphabet]]" @click="on_key_input(alphabet)">{{ alphabet }}</div>
+                    <div class="centerc key-button" v-for="c in key_buttons[0]" :class="[alphabet_usage[c]]" @click="on_key_input(c)">{{ c }}</div>
                 </div>
                 <div class="keyboard-row">
-                    <div class="center-container key-button" v-for="alphabet in key_buttons[1]" :class="[alphabet_usage[alphabet]]" @click="on_key_input(alphabet)">{{ alphabet }}</div>
+                    <div class="centerc key-button" v-for="c in key_buttons[1]" :class="[alphabet_usage[c]]" @click="on_key_input(c)">{{ c }}</div>
                 </div>
                 <!-- Third row, including enter and backspace key -->
                 <div class="keyboard-row">
-                    <div class="center-container key-button wide-key-button unknown" @click="on_enter_input">ENTER</div>
-                    <div class="center-container key-button" v-for="alphabet in key_buttons[2]" :class="[alphabet_usage[alphabet]]" @click="on_key_input(alphabet)">{{ alphabet }}</div>
-                    <div class="center-container key-button wide-key-button unknown" @click="on_backspace_input">BACKSPACE</div>
+                    <div class="centerc key-button wide-key-button unknown" @click="on_enter_input">ENTER</div>
+                    <div class="centerc key-button" v-for="c in key_buttons[2]" :class="[alphabet_usage[c]]" @click="on_key_input(c)">{{ c }}</div>
+                    <div class="centerc key-button wide-key-button unknown" @click="on_backspace_input">BACKSPACE</div>
                 </div>
             </div>
         </div>
@@ -59,12 +59,12 @@
 
             function get_match_result(query){
                 var answer = 'SCALP';
-                var result = Array(5); // 'not-used', 'correct-usage' or 'correct-position'
+                var result = Array(5); // 'nu' (not-used), 'cu' (correct-usage) or 'cp' (correct-position)
 
                 for (let [index, char] of query.entries()){
-                    var status = 'correct-position';
+                    var status = 'cp';
                     if (char !== answer.charAt(index)){
-                        status = answer.includes(char) ? 'correct-usage' : 'not-used';
+                        status = answer.includes(char) ? 'cu' : 'nu';
                     }
 
                     result[index] = status;
@@ -103,7 +103,7 @@
                         }
                         else{
                             var match_result = get_match_result(this.current_attempt);
-                            var all_match = match_result.every((status) => status === 'correct-position');
+                            var all_match = match_result.every((status) => status === 'cp');
                             var zipped = this.current_attempt.map(
                                 (item, index) => { 
                                     return { 
@@ -118,7 +118,7 @@
                                 var char = item['char'];
                                 var status = item['status'];
 
-                                if (this.alphabet_usage[char] === 'unknown' || this.alphabet_usage[char] === 'correct-usage'){
+                                if (this.alphabet_usage[char] === 'unknown' || this.alphabet_usage[char] === 'cu'){
                                     this.$set(this.alphabet_usage, char, status);
                                 }
                             }

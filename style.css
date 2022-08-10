@@ -37,14 +37,14 @@ header > #title{
     font-size: 2rem;
 }
 
-.center-container{
+.centerc{ /* center-container */
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
 }
 
-.grow-container{
+.growc{ /* grow-container */
     flex-grow: 1;
 }
 
@@ -57,7 +57,7 @@ header > #title{
     column-gap: 0.5rem;
 }
 
-.char-container{
+.charc{ /* char-container */
     width: 4rem;
     height: 4rem;
     font-weight: 700;
@@ -65,7 +65,7 @@ header > #title{
 }
 
 @media screen and (max-height: 41rem) {
-    .char-container{
+    .charc{ /* char-container */
         width: 3rem;
         height: 3rem;
         font-size: 1.5rem;
@@ -111,15 +111,15 @@ header > #title{
     box-shadow: 0 0 0 2px rgb(86, 87, 88) inset;
 }
 
-.not-used{
+.nu{ /* not-used */
     background-color: rgb(58, 58, 60);
 }
 
-.correct-usage{
+.cu{ /* correct-usage */
     background-color: rgb(177, 160, 76);
 }
 
-.correct-position{
+.cp{ /* correct-position */
     background-color: rgb(97, 140, 85);
 }
 
@@ -142,7 +142,7 @@ header > #title{
     gap: 4px;
 }
 
-.wordle-result > .char-container{
+.wordle-result > .charc{ /* char-container */
     width: 3rem;
     height: 3rem;
     font-size: 1.5rem;
